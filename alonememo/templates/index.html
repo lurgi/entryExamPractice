@@ -1,0 +1,128 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link
+      rel="stylesheet"
+      href="https://cdn.jsdelivr.net/npm/bootstrap@4.6.0/dist/css/bootstrap.min.css"
+      integrity="sha384-B0vP5xmATw1+K9KRQjQERJvTumQW0nPEzvF6L/Z6nronJ3oUOFUFpCjEUQouq2+l"
+      crossorigin="anonymous"
+    />
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@300;400;500;700;900&display=swap"
+      rel="stylesheet"
+    />
+    <style>
+      * {
+        font-family: "Noto Sans KR", sans-serif;
+      }
+      body {
+        margin-top: 10px;
+      }
+      ul {
+        padding-left: 0;
+      }
+      li {
+        list-style-type: none;
+      }
+      .form {
+        display: flex;
+        flex-direction: column;
+        width: 500px;
+        margin: 0px auto;
+        border: 2px solid gray;
+        padding: 40px;
+      }
+      .form > :not(label) {
+        margin-bottom: 20px;
+      }
+      .hidden {
+        display: none;
+      }
+      .cards_container {
+        display: grid;
+        grid-template-columns: 1fr 1fr 1fr;
+        row-gap: 20px;
+        column-gap: 10px;
+      }
+      .comment {
+        color: blue;
+      }
+    </style>
+    <title>Document</title>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
+    <script>
+      function clickOpenClose() {
+        const form = $(".form")[0];
+        const btn = $(".open_close_btn")[0];
+        if (form.className.split(" ").includes("hidden")) {
+          form.classList.remove("hidden");
+          btn.innerText = "포스팅 박스 닫기";
+        } else {
+          form.classList.add("hidden");
+          btn.innerText = "포스팅 박스 열기";
+        }
+      }
+      function submitForm() {
+        const url_input = $("#article_url").val();
+        const comment_input = $("#simple_comment").val();
+        $.ajax({
+          type: "POST",
+          url: "/memo",
+          data: {
+            url: url_input,
+            comment: comment_input,
+          },
+          success: function (response) {
+            console.log(response);
+          },
+        });
+      }
+    </script>
+  </head>
+  <body class="container">
+    <div class="jumbotron">
+      <h1 class="display-4">나홀로 링크 메모장!</h1>
+      <p class="lead">중요한 링크를 저장해두고, 나중에 볼 수 있는 공간입니다</p>
+      <hr class="my-4" />
+      <p class="lead">
+        <button
+          class="btn btn-primary open_close_btn"
+          onclick="clickOpenClose()"
+          role="button"
+        >
+          포스팅 박스 열기
+        </button>
+      </p>
+    </div>
+    <div class="form hidden">
+      <label for="article_url">아티클 URL</label>
+      <input id="article_url" />
+      <label for="simple_comment">간단 코멘트</label>
+      <textarea id="simple_comment"></textarea>
+      <button
+        type="submit"
+        style="width: 100px"
+        class="btn btn-primary"
+        onclick="submitForm()"
+      >
+        기사저장
+      </button>
+    </div>
+    <ul class="cards_container">
+      <li>
+        <div class="card">
+          <img class="card-img-top" src="holder.js/100x180/" alt="" />
+          <div class="card-body">
+            <a href="/" class="card-title">Title</a>
+            <p class="card-text">Text</p>
+            <p class="card-text comment">Comment</p>
+          </div>
+        </div>
+      </li>
+    </ul>
+  </body>
+</html>

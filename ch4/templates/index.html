@@ -1,0 +1,13 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>HTML by Flask</title>
+  </head>
+  <body>
+    <h1>This is Home</h1>
+    <!-- <img src="../static/rome.jpg" /> -->
+    <img src="{{url_for('static',filename='rome.jpg')}}" />
+  </body>
+</html>

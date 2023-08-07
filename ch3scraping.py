@@ -17,4 +17,7 @@ movies = soup.select(
     ('.kakao_article > .section_ranking > .box_boxoffice > .list_movieranking > li'))
 
 for movie in movies:
-    print(movie.select_one('.tit_item > a').text)
+    movie_title = movie.select_one('.tit_item > a').text
+    if not movie_title:
+        continue
+    print(movie_title)
